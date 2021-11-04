@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div style="margin: 2px;" class="jumbotron"></div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script>
+        function sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
+
+        (function total() {
+            sleep(2000).then(() => {
+                $.get('http://dc.jboc.cn:8888/api/docks', function (dataset) {
+
+                    $(".jumbotron").empty();
+                    for (var item in dataset) {
+                        $(".jumbotron").append(function (i, origText) {
+                            return "<div style=\"margin: 5px;\" class=\"btn btn-default\"><div><h2>" + dataset[item].name + "</h2></div><div class=\"" +
+                                (dataset[item].diciDevs[0].st == 0 ? "btn btn-default" : "btn btn-primary") + "\">" + dataset[item].diciDevs[0].vdc + "</div><div class=\"" + (dataset[item].diciDevs[1].st == 0 ? "btn btn-default" : "btn btn-primary") + "\">" + dataset[item].diciDevs[1].vdc + "</div></div>";
+                        });
+                    }
+                });
+                total();
+            });
+        })();
+    </script>
+</body>
+
+</html>
